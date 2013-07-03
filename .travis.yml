@@ -6,7 +6,7 @@
 
 before_script:
   - sudo apt-get install texlive
-  - sudo apt-get install pandoc
+  - sudo apt-get install pandoc-1.9.2
 
 script: 
   - pandoc ${TRAVIS_BUILD_DIR}/HTM_CLA/HTM_Cortical_Learning_Algorithms.tex -f latex -t html -s -o test.html

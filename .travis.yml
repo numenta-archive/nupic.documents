@@ -1,5 +1,3 @@
-language: haskell
-
 # notifications:
 #   irc: 
 #     channels: 
@@ -8,7 +6,11 @@ language: haskell
 
 before_script:
   - sudo apt-get install texlive
+  # Yes, this is ridiculous.
+  - sudo apt-get install haskell-platform
+  - cabal update
   - cabal install pandoc
+  - export PATH=${PATH}:~/.cabal/bin
 
 script: 
   - pandoc ${TRAVIS_BUILD_DIR}/HTM_CLA/HTM_Cortical_Learning_Algorithms.tex -f latex -t html -s -o test.html

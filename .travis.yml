@@ -6,8 +6,6 @@
 
 before_script:
   - sudo apt-get install texlive
-  # Yes, this is ridiculous.
-  - sudo apt-get install haskell-platform
   - cabal update
   - cabal install pandoc
   - export PATH=${PATH}:~/.cabal/bin

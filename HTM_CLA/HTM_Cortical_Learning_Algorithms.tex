@@ -1169,6 +1169,7 @@ Now we will discuss concepts specific to the spatial and temporal
 pooler functions.
 
 \section*{Spatial pooler concepts}
+\label{section:spatial-pooler-concepts}
 
 The most fundamental function of the spatial pooler is to convert a
 region's input into a sparse pattern. This function is important
@@ -1233,7 +1234,9 @@ to represent entirely different things in reaction to various
 changes. If part of the neocortex is damaged, other parts will adjust
 to represent what the damaged part used to represent. If a sensory
 organ is damaged or changed, the associated part of the neocortex will
-adjust to represent something else. The system is self-adjusting.
+adjust to represent something else. We also see the number of input
+bits from a sensory organ relateve to the size of a region can vary
+a lot.  The system is all self-adjusting.
 
 We want our HTM regions to exhibit the same flexibility. If we
 allocate 10,000 columns to a region, it should learn how to best
@@ -1246,7 +1249,8 @@ of representing the input based on the available columns and input
 statistics. The general rule is that with more columns in a region,
 each column will represent larger and more detailed patterns in the
 input. Typically the columns also will be active less often, yet we
-will maintain a relative constant sparsity level.
+will maintain a relative constant sparsity level.  There is no ideal
+ratio between input bits and columns in the region.
 
 No new learning rules are required to achieve this highly desirable
 goal. By boosting inactive columns, inhibiting neighboring columns to
@@ -1292,6 +1296,103 @@ We can now go through everything the spatial pooling function does.
   changes made to permanence values may change some synapses from
   being valid to not valid, and vice-versa.
 \end{enumerate}
+
+\subsection*{The size of the region versus input patterns}
+As mentiond in Section~\ref{section:spatial-pooler-concepts}, there is no
+ideal ratio of input bits to columns in the region.  We see a large variation
+in biology and the CLA can also work under a variety of ratios.
+For example, we all have about 1M input bits from the retina but in humans
+the size of region V1 (and therefore the number of columns) varies by a factor
+of 3! People with a bigger V1 seem to have a bit higher acuity but
+all have normal vision.
+
+It is more important to focus on the number of patterns we will see in the
+input, not the number of bits in the input. For example a 32x32 image patch
+has 1024 input bits but $2^{1024}$  possible patterns.  Even if we force
+sparsity of only 20 active bits out of 1024 that still gives $5^{41}$ potential
+input patterns we might see (i.e. 1024 choose 20).  In the biological world
+we find that the number of possible input patterns and the number of actual
+input patterns from a sensory organ is astronomically large.
+
+
+Imagine a small 32x32 image system that only experiences $100,000$ unique
+spatial patterns in the input (much less than the ``possible'' number of input
+patterns).  If we feed this to a region with $2,000$ columns and 2\% are active
+at any time, then each column will be active for about $2,000$ different input
+patterns.  Each column will therefore learn some common subset of roughly
+$2,000$ input patterns.  If there is a lot of overlap between the input
+patterns then a column will represent a bigger common subset.  If there is
+minimal overlap between the input patterns then columns would only
+represent very small spatial patterns.  You can measure this by looking at
+the number of connected synapses in the spatial pooler.  The bigger the
+number of connected synapses the larger the pattern than column represents.
+At one extreme, if you fed random bit patterns, then there would be almost
+no overlap between the ``images'' and the columns would only have two or
+three connected synapses which is not useful.  The goal of the spatial pooler
+is to learn common spatial features of the input space; the larger these features
+are the better, as it means the active columns will be more stable against
+noise or modified input patterns.
+
+
+\begin{enumerate}
+\item {\bf In case of too many input patterns are fed}
+
+What can we do if there are too many patterns in the input space?  One
+option is to add more columns but keep the number of columns active
+constant.  For example, go to $100,000$ columns where 40 are active.
+This would help but it can only go so far.  Imagine we have the optic nerve
+with 1M input bits and a super astronomical number of observed input patterns.
+No number of columns is going to allow them to represent large spatial
+features across the entire input space.
+
+The solution that nature came up with is to use topology and hierarchy.
+
+
+Topology allows that a column won't represent a pattern that spans the entire
+input, but only a small region of the input space.  By restricting its input
+to a small region of the sensory space (a small part of the visual field) a
+column can find common spatial patterns that are meaningful, albeit in a
+local context.  With topology it is easy to allow the ``receptive field'' of
+the columns to expand and contract depending on nature of the input
+patterns.  The more diverse the input patterns the smaller the receptive
+field, the less the diverse the input patterns the larger the receptive
+field.  The downside of topology is no column in the region is looking at
+the entire input space.   This is where hierarchy comes in.  Each region in the
+hierarchy learns the largest patterns it can (first spatial patterns, then
+temporal sequences). The next region does this again.  Ultimately we will have
+regions where the learned patterns span most of the input space.
+
+\item {\bf In case of too few input patterns are fed}
+
+Imagine we have 3 unique input patterns only.
+
+\begin{tabular}{|c|c|}
+\hline
+Pattern1 & 111111111100000000000000000000 \\
+\hline
+Pattern2 & 000000000011111111110000000000 \\
+\hline
+Pattern3 & 000000000000000000001111111111 \\
+\hline
+\end{tabular}
+
+This system will never see any more than three unique patterns from the
+sensor.  It doesn't matter how many input bits we have, the number of input
+patterns is small. This input could be from a number that only has three
+values or three categories.
+
+The current version of spatial pooler could have problems with this.  Each column
+tries to represent a subset of the input space that occurs roughly 2\% of the time.
+What happens is the columns continually compete trying to represent the input and
+learning is not stable.
+
+One possible workaround of this is, when we detect there are very few input patterns,
+we can disable columns that aren't necessary in the region.  Thus, there will be
+less columns to complete.  For this three pattern case, we might end up with only
+120 columns being used, 40 active at a time.
+
+\end{enumerate}
+
 
 \section*{Temporal pooler concepts}
 

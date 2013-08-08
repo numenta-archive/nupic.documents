@@ -1,10 +1,19 @@
-# notifications:
-#   irc: 
-#     channels: 
-#       - "irc.freenode.net#nupic"
-#   webhooks: http://issues.numenta.org:8081/travis
+env:
+  global:
+    # AWS S3 details so travis can post build artifacts
+    - "ARTIFACTS_AWS_REGION=us-west-2"
+    - "ARTIFACTS_S3_BUCKET=builds.s3.numenta.org"
+    - secure: |-
+        WemJGxo9ltAqxoif0WoHhzhnqIK7qmZbtmt95uBUMiX6tEqFR7rL9k6wZQac
+        gAKghHQytPVSQdoTQiZwb8uu0RviytwDE7e+HcpzJYECCuO1V8QLECcYjpoj
+        Tk5orUmICTvQiCUR71egK8i614krQm7sZ9Yn5qU713aZg0aNxn4=
+    - secure: |-
+        opFxTDlxT/iKJTLfsWcPyBVR4/CF8oPG3vMyiyLvYw4N8OOGfAmAbDvteTe/
+        kRnWCImR0+8u2uo2jnNuXkr/w8sayaaVfvSGjsIqybjfBKHRe0zyokxemyOh
+        omyRpqc3QBAVzP/gssNnhkc4ZmZIAc2QnVMUs20RI7Ch6ldFGdc=
 
 before_script:
+  - gem install travis-artifacts
   - sudo apt-get install texlive
   # Yes, this is ridiculous.
   - sudo apt-get install haskell-platform
@@ -13,8 +22,7 @@ before_script:
   - export PATH=${PATH}:~/.cabal/bin
 
 script: 
-  - pandoc ${TRAVIS_BUILD_DIR}/HTM_CLA/HTM_Cortical_Learning_Algorithms.tex -f latex -t html -s -o test.html
+  - pandoc ${TRAVIS_BUILD_DIR}/HTM_CLA/HTM_Cortical_Learning_Algorithms.tex -f latex -t html -s -o cla.html
 
 after_script:
-  # just verify the output can be seen
-  - cat test.html
+  - "travis-artifacts upload --target-path cla/$TRAVIS_BUILD_ID/$TRAVIS_JOB_ID --path cla.html"

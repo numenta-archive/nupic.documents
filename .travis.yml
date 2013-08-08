@@ -2,7 +2,7 @@ env:
   global:
     # AWS S3 details so travis can post build artifacts
     - "ARTIFACTS_AWS_REGION=us-west-2"
-    - "ARTIFACTS_S3_BUCKET=builds.s3.numenta.org"
+    - "ARTIFACTS_S3_BUCKET=public.numenta.org"
     - secure: |-
         WemJGxo9ltAqxoif0WoHhzhnqIK7qmZbtmt95uBUMiX6tEqFR7rL9k6wZQac
         gAKghHQytPVSQdoTQiZwb8uu0RviytwDE7e+HcpzJYECCuO1V8QLECcYjpoj

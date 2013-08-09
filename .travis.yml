@@ -3,8 +3,10 @@ env:
     # AWS S3 details so travis can post build artifacts
     - "ARTIFACTS_AWS_REGION=us-west-2"
     - "ARTIFACTS_S3_BUCKET=public.numenta.org"
-    - secure: "NnM6+xBK5gPaiErwg21gleXgOr+6u2RjItQ1yeIx2VnoPFZ37wQMNQCIsHum\nSjos5N0HEeBm0/JXFQlq+oQk05mafJC1OTFqUWLwgvRcf9X5yU+KwCVWuyGG\nPDcqyeSACb2MSnNrCuheNmQQ6XlwxjQ9ZqMuJ47l2kC+KSsVYb0="
-    - secure: "qxCzKQqVWQ3q7TCSXoSRcVOongc3O9xYyandb2029NW99JItJUd4xGpNYmaq\nksJXOG8/UpJd+lGMvcfNv12ohNN/jbPuh/kp9gQ5Xt5Y8RUdnLm7RHW5Tb1D\n7ERPwTE/EB9Tw5NJE2Tev+bZYlK/r9G7sR/1n7LqEvKex0b8/aY="
+    - "ARTIFACTS_AWS_ACCESS_KEY_ID=act_of_desparation"
+    - "ARTIFACTS_AWS_SECRET_ACCESS_KEY=act_of_desparation"
+    # - secure: "NnM6+xBK5gPaiErwg21gleXgOr+6u2RjItQ1yeIx2VnoPFZ37wQMNQCIsHum\nSjos5N0HEeBm0/JXFQlq+oQk05mafJC1OTFqUWLwgvRcf9X5yU+KwCVWuyGG\nPDcqyeSACb2MSnNrCuheNmQQ6XlwxjQ9ZqMuJ47l2kC+KSsVYb0="
+    # - secure: "qxCzKQqVWQ3q7TCSXoSRcVOongc3O9xYyandb2029NW99JItJUd4xGpNYmaq\nksJXOG8/UpJd+lGMvcfNv12ohNN/jbPuh/kp9gQ5Xt5Y8RUdnLm7RHW5Tb1D\n7ERPwTE/EB9Tw5NJE2Tev+bZYlK/r9G7sR/1n7LqEvKex0b8/aY="
 
 before_script:
   - gem install travis-artifacts

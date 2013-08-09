@@ -3,14 +3,8 @@ env:
     # AWS S3 details so travis can post build artifacts
     - "ARTIFACTS_AWS_REGION=us-west-2"
     - "ARTIFACTS_S3_BUCKET=public.numenta.org"
-    - secure: |-
-        WemJGxo9ltAqxoif0WoHhzhnqIK7qmZbtmt95uBUMiX6tEqFR7rL9k6wZQac
-        gAKghHQytPVSQdoTQiZwb8uu0RviytwDE7e+HcpzJYECCuO1V8QLECcYjpoj
-        Tk5orUmICTvQiCUR71egK8i614krQm7sZ9Yn5qU713aZg0aNxn4=
-    - secure: |-
-        opFxTDlxT/iKJTLfsWcPyBVR4/CF8oPG3vMyiyLvYw4N8OOGfAmAbDvteTe/
-        kRnWCImR0+8u2uo2jnNuXkr/w8sayaaVfvSGjsIqybjfBKHRe0zyokxemyOh
-        omyRpqc3QBAVzP/gssNnhkc4ZmZIAc2QnVMUs20RI7Ch6ldFGdc=
+    - secure: "NnM6+xBK5gPaiErwg21gleXgOr+6u2RjItQ1yeIx2VnoPFZ37wQMNQCIsHum\nSjos5N0HEeBm0/JXFQlq+oQk05mafJC1OTFqUWLwgvRcf9X5yU+KwCVWuyGG\nPDcqyeSACb2MSnNrCuheNmQQ6XlwxjQ9ZqMuJ47l2kC+KSsVYb0="
+    - secure: "qxCzKQqVWQ3q7TCSXoSRcVOongc3O9xYyandb2029NW99JItJUd4xGpNYmaq\nksJXOG8/UpJd+lGMvcfNv12ohNN/jbPuh/kp9gQ5Xt5Y8RUdnLm7RHW5Tb1D\n7ERPwTE/EB9Tw5NJE2Tev+bZYlK/r9G7sR/1n7LqEvKex0b8/aY="
 
 before_script:
   - gem install travis-artifacts
